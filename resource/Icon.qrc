@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>center.png</file>
+        <file>crop.png</file>
+        <file>curve.png</file>
+        <file>focus.png</file>
+        <file>pick.png</file>
+        <file>rounded.png</file>
+    </qresource>
+</RCC>
