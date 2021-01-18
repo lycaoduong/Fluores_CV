@@ -29,7 +29,7 @@ void MainWindow::startWindow_Config(void)
 void MainWindow::slotMenuPopup(QPoint pos)
 {
     QMenu *menu = new QMenu(this);
-    menu->setStyleSheet("background-color: rgb(255, 255, 255)");
+    //menu->setStyleSheet("background-color: rgb(255, 255, 255)");
     menu->addAction(new QAction("Save Image", this));
     menu->addAction(new QAction("Merge Image", this));
     menu->addAction(new QAction("Measure", this));
