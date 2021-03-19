@@ -30,6 +30,9 @@ public:
     void Colormap_Plot(QImage qImage, QCustomPlot *Object);
     void Clear_Plot(QCustomPlot *Object);
     void startWindow_Config(void);
+    void serialPort_Config(void);
+    QByteArray calculateFrame(QString frame);
+    void find_motion_Port(void);
     void apply_Color_Map(int color_Index, cv::Mat input);
     void plot_Histogram(cv::Mat img, QCustomPlot *customPlot);
     void plot_Horizon_graph(cv::Mat img,int Line ,QCustomPlot *customPlot);

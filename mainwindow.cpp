@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <ImageProcess.h>
+#include <QtSerialPort/QSerialPort>
+#include <QSerialPortInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,11 +11,70 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     startWindow_Config();
+    serialPort_Config();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::serialPort_Config(void)
+{
+    QSerialPort*serialport=new QSerialPort();
+//    serialport->open(QIODevice::ReadWrite);
+    serialport->setPortName("COM15");
+    serialport->setBaudRate(QSerialPort::Baud57600);
+    serialport->setDataBits(QSerialPort::Data8);
+    serialport->setParity(QSerialPort::NoParity);
+    serialport->setStopBits(QSerialPort::OneStop);
+    serialport->setFlowControl(QSerialPort::NoFlowControl);
+    if (serialport->open(QIODevice::ReadWrite)){
+        qDebug()<<"Opened successfully";
+      }
+    serialport->write(calculateFrame("LP2"));
+    if (!serialport->waitForReadyRead(1000))
+    {
+        qDebug()<<"failed";
+    }
+    ui->checkBox_Com->setStyleSheet("color: rgb(0, 255, 0);");
+    ui->checkBox_Com->setText("Connected");
+    ui->checkBox_Com->setChecked(true);
+}
+
+void MainWindow::find_motion_Port(void)
+{
+    foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
+    {
+//        qDebug() << serialPortInfo.portName();
+        ui->comboBox_COM->addItem(serialPortInfo.portName());
+    }
+}
+
+QByteArray MainWindow::calculateFrame(QString frame)
+{
+    QString StrData = frame;
+    QByteArray data2send;
+    data2send = data2send + "\x2a\x31" + frame.toUtf8();
+    qint16 sumOfBytes = 0, c_sum = 0;
+    bool ok;
+    for (int i = 0; i < StrData.length(); i++) {
+          QString value = QString::number(StrData.at(i).unicode(), 16);
+//          QByteArray value1 = QByteArray::number(StrData.at(i).unicode(), 16);
+//          sum = sum + value1;
+//          data2send = data2send + value.toUtf8();
+          sumOfBytes = sumOfBytes + value.toInt(&ok, 16);
+//          qDebug() << value;
+    }
+//    qDebug() << sumOfBytes;
+    c_sum = 255 - sumOfBytes +1;
+//    qDebug() << c_sum;
+//    QString hexvalue = QString("%1").arg(c_sum, 2, 16, QLatin1Char( '0' ));
+//    qDebug() << hexvalue;
+//    data2send = data2send + hexvalue.toLatin1() + "\x23";
+    data2send = data2send + QChar(c_sum).toLatin1() + "\x23";
+//    qDebug() << data2send;
+    return data2send;
 }
 
 void MainWindow::startWindow_Config(void)
