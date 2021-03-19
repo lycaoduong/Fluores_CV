@@ -474,8 +474,8 @@
    <string notr="true">background-color: rgb(54, 54, 54);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="styleSheet">
        <string notr="true">background-color: rgb(51, 80, 94);</string>
@@ -510,13 +510,6 @@ color: rgb(255, 255, 255);</string>
            <string>Color_Map Modify</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
-           <item row="3" column="1" colspan="4">
-            <widget class="QSlider" name="horizontalSlider_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
            <item row="4" column="2">
             <widget class="QPushButton" name="pushButton_3">
              <property name="maximumSize">
@@ -533,58 +526,13 @@ color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1" colspan="4">
-            <widget class="QSlider" name="horizontalSlider_3">
-             <property name="maximum">
-              <number>500</number>
-             </property>
-             <property name="value">
-              <number>200</number>
-             </property>
+           <item row="2" column="5">
+            <widget class="QLCDNumber" name="lcdNumber_Min"/>
+           </item>
+           <item row="3" column="1" colspan="4">
+            <widget class="QSlider" name="horizontalSlider_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Light</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Min</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1" colspan="5">
-            <widget class="QComboBox" name="comboBox">
-             <property name="maximumSize">
-              <size>
-               <width>436</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(51, 80, 94);</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Custom</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="5" column="5">
-            <widget class="QLCDNumber" name="lcdNumber_3">
-             <property name="value" stdset="0">
-              <double>200.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -607,6 +555,118 @@ color: rgb(255, 255, 255);</string>
              </property>
              <property name="text">
               <string>Violet</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButton_RGB">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>RGB</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(51, 80, 94);</string>
+             </property>
+             <property name="text">
+              <string>FIM</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="pushButton_Green">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(51, 80, 94);</string>
+             </property>
+             <property name="text">
+              <string>Green</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QPushButton" name="pushButton_Blue">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(51, 80, 94);</string>
+             </property>
+             <property name="text">
+              <string>Blue</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(51, 80, 94);</string>
+             </property>
+             <property name="text">
+              <string>EXM</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Min</string>
              </property>
             </widget>
            </item>
@@ -635,32 +695,68 @@ color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Max</string>
+           <item row="5" column="5">
+            <widget class="QLCDNumber" name="lcdNumber_3">
+             <property name="value" stdset="0">
+              <double>200.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="pushButton_Green">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>40</height>
-              </size>
+           <item row="2" column="1" colspan="4">
+            <widget class="QSlider" name="horizontalSlider">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
+            </widget>
+           </item>
+           <item row="3" column="5">
+            <widget class="QLCDNumber" name="lcdNumber_Max"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Custom</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="4">
+            <widget class="QSlider" name="horizontalSlider_3">
+             <property name="maximum">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="5">
+            <widget class="QComboBox" name="comboBox">
              <property name="maximumSize">
               <size>
-               <width>60</width>
-               <height>40</height>
+               <width>436</width>
+               <height>16777215</height>
               </size>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(51, 80, 94);</string>
              </property>
+             <item>
+              <property name="text">
+               <string>Custom</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Green</string>
+              <string>Max</string>
              </property>
             </widget>
            </item>
@@ -686,106 +782,10 @@ color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="3">
-            <widget class="QPushButton" name="pushButton_4">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(51, 80, 94);</string>
-             </property>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>EXM</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" colspan="4">
-            <widget class="QSlider" name="horizontalSlider">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(51, 80, 94);</string>
-             </property>
-             <property name="text">
-              <string>FIM</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_RGB">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(255, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>RGB</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="5">
-            <widget class="QLCDNumber" name="lcdNumber_Max"/>
-           </item>
-           <item row="2" column="5">
-            <widget class="QLCDNumber" name="lcdNumber_Min"/>
-           </item>
-           <item row="0" column="3">
-            <widget class="QPushButton" name="pushButton_Blue">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(51, 80, 94);</string>
-             </property>
-             <property name="text">
-              <string>Blue</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Gain</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Custom</string>
+              <string>Light</string>
              </property>
             </widget>
            </item>
@@ -1518,7 +1518,7 @@ color: rgb(255, 255, 255);</string>
           <property name="maximumSize">
            <size>
             <width>550</width>
-            <height>16777215</height>
+            <height>300</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -1528,149 +1528,56 @@ color: rgb(255, 255, 255);</string>
           <property name="title">
            <string>Rotary Stack</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="3" column="0">
-            <widget class="QGroupBox" name="groupBox_6">
-             <property name="title">
-              <string>Enable</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout">
-              <item>
-               <widget class="QRadioButton" name="radioButton_4">
-                <property name="text">
-                 <string>Move J</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="radioButton_5">
-                <property name="text">
-                 <string>Move L</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
+          <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0">
-            <widget class="QRadioButton" name="radioButton">
-             <property name="text">
-              <string>Position 1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QCheckBox" name="checkBox">
-             <property name="text">
-              <string>Enable Run</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QRadioButton" name="radioButton_2">
-             <property name="text">
-              <string>Position 2 </string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QRadioButton" name="radioButton_3">
-             <property name="text">
-              <string>Position 3</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="checkBox_2">
-             <property name="text">
-              <string>Save Position</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" rowspan="3" colspan="2">
             <widget class="QGroupBox" name="groupBox_7">
+             <property name="minimumSize">
+              <size>
+               <width>500</width>
+               <height>180</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>500</width>
+               <height>180</height>
+              </size>
+             </property>
              <property name="title">
               <string>Rotary Control</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_6">
-              <item row="1" column="2" rowspan="2">
-               <widget class="QDial" name="dial">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximum">
-                 <number>6</number>
-                </property>
-                <property name="value">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QPushButton" name="pushButton_Reset">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="text">
-                 <string>Reset</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" rowspan="2">
-               <widget class="QSlider" name="verticalSlider">
-                <property name="maximum">
-                 <number>99</number>
-                </property>
-                <property name="value">
-                 <number>0</number>
-                </property>
-                <property name="sliderPosition">
-                 <number>0</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QPushButton" name="pushButton_LightRoom">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="text">
-                 <string>Light Room</string>
-                </property>
-               </widget>
-              </item>
+             <layout class="QGridLayout" name="gridLayout_5">
               <item row="0" column="0">
-               <widget class="QComboBox" name="comboBox_COM">
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(225, 225, 225);
+               <layout class="QGridLayout" name="gridLayout_8">
+                <item row="0" column="0">
+                 <widget class="QComboBox" name="comboBox_COM">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(225, 225, 225);
 color: rgb(0, 0, 0);</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Select COM</string>
-                 </property>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Select COM</string>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
-               </widget>
+               </layout>
+              </item>
+              <item row="0" column="2">
+               <layout class="QHBoxLayout" name="horizontalLayout"/>
               </item>
               <item row="0" column="1">
                <widget class="QCheckBox" name="checkBox_Com">
@@ -1691,6 +1598,117 @@ color: rgb(0, 0, 0);</string>
                 </property>
                </widget>
               </item>
+              <item row="1" column="0" rowspan="2">
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QPushButton" name="pushButton_LightRoom">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+                  </property>
+                  <property name="text">
+                   <string>Light Room</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_Reset">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+                  </property>
+                  <property name="text">
+                   <string>Reset</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="1" colspan="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QSlider" name="horizontalSlider_Intensity">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="lcdNumber_Intensityvalue">
+                  <property name="digitCount">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="1" rowspan="2">
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QRadioButton" name="radioButton_Ch1">
+                  <property name="text">
+                   <string>Channel 1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_Ch3">
+                  <property name="text">
+                   <string>Channel 3</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="2" rowspan="2">
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QRadioButton" name="radioButton_Ch2">
+                  <property name="text">
+                   <string>Channel 2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_Ch4">
+                  <property name="text">
+                   <string>Channel 4</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Intensity</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
              </layout>
             </widget>
            </item>
@@ -1706,7 +1724,7 @@ color: rgb(0, 0, 0);</string>
       </widget>
      </widget>
     </item>
-    <item>
+    <item row="0" column="1">
      <widget class="QGroupBox" name="groupBox">
       <property name="minimumSize">
        <size>
@@ -2062,7 +2080,7 @@ color: rgb(0, 0, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

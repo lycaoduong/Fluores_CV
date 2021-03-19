@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <ImageProcess.h>
-#include <QtSerialPort/QSerialPort>
-#include <QSerialPortInfo>
+//#include <QtSerialPort/QSerialPort>
+//#include <QSerialPortInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     startWindow_Config();
     serialPort_Config();
+    connect(ui->radioButton_Ch1, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
+    connect(ui->radioButton_Ch2, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
+    connect(ui->radioButton_Ch3, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
+    connect(ui->radioButton_Ch4, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
+    connect(ui->horizontalSlider_Intensity, SIGNAL(valueChanged(int)), SLOT(intensityChange(int)));
 }
 
 MainWindow::~MainWindow()
@@ -21,9 +26,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::serialPort_Config(void)
 {
-    QSerialPort*serialport=new QSerialPort();
+    serialport=new QSerialPort();
 //    serialport->open(QIODevice::ReadWrite);
-    serialport->setPortName("COM15");
+    serialport->setPortName("COM7");
     serialport->setBaudRate(QSerialPort::Baud57600);
     serialport->setDataBits(QSerialPort::Data8);
     serialport->setParity(QSerialPort::NoParity);
@@ -31,15 +36,16 @@ void MainWindow::serialPort_Config(void)
     serialport->setFlowControl(QSerialPort::NoFlowControl);
     if (serialport->open(QIODevice::ReadWrite)){
         qDebug()<<"Opened successfully";
+        ui->checkBox_Com->setStyleSheet("color: rgb(0, 255, 0);");
+        ui->checkBox_Com->setText("Connected");
+        ui->checkBox_Com->setChecked(true);
       }
-    serialport->write(calculateFrame("LP2"));
-    if (!serialport->waitForReadyRead(1000))
-    {
-        qDebug()<<"failed";
-    }
-    ui->checkBox_Com->setStyleSheet("color: rgb(0, 255, 0);");
-    ui->checkBox_Com->setText("Connected");
-    ui->checkBox_Com->setChecked(true);
+//    if (!serialport->waitForReadyRead(1000))
+//    {
+//        qDebug()<<"failed";
+//        ui->checkBox_Com->setText("Connected Fail");
+//    }
+//    find_motion_Port();
 }
 
 void MainWindow::find_motion_Port(void)
@@ -48,6 +54,57 @@ void MainWindow::find_motion_Port(void)
     {
 //        qDebug() << serialPortInfo.portName();
         ui->comboBox_COM->addItem(serialPortInfo.portName());
+    }
+}
+
+void MainWindow::mpOnRadiBoxClickked()
+{
+    if(ui->radioButton_Ch1->isChecked())
+    {
+        if (serialport->isOpen()){
+        //qDebug() << 1;
+        QString frame = "LP1";
+        QByteArray data = calculateFrame(frame);
+        serialport->write(data);}
+    }
+    else if(ui->radioButton_Ch2->isChecked())
+    {
+        if(serialport->isOpen()){
+        qDebug() << 2;
+        QString frame = "LP2";
+        QByteArray data = calculateFrame(frame);
+        serialport->write(data);
+        }
+    }
+    else if(ui->radioButton_Ch3->isChecked())
+    {
+        if(serialport->isOpen()){
+        //qDebug() << 3;
+        QString frame = "LP3";
+        QByteArray data = calculateFrame(frame);
+        serialport->write(data);}
+    }
+    else if(ui->radioButton_Ch4->isChecked())
+    {
+        if(serialport->isOpen()){
+        //qDebug() << 4;
+        QString frame = "LP4";
+        QByteArray data = calculateFrame(frame);
+        serialport->write(data);}
+    }
+}
+
+void MainWindow::intensityChange(int value)
+{
+     ui->lcdNumber_Intensityvalue->display(value);
+    if(serialport->isOpen())
+    {
+//        qDebug() << value;
+        char a = (char)value;
+        QString s = QString(QChar::fromLatin1(a));
+        QString frame = "LI" + s;
+        QByteArray data = calculateFrame(frame);
+        serialport->write(data);
     }
 }
 

@@ -9,6 +9,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "qcustomplot.h"
 #include <stdlib.h>
+#include <QtSerialPort/QSerialPort>
+#include <QSerialPortInfo>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -62,6 +64,8 @@ private slots:
     void horizon_Enable(bool en);
     void get_Pixcelposition(QMouseEvent *event);
     void slotMenuPopup(QPoint pos);
+    void mpOnRadiBoxClickked();
+    void intensityChange(int value);
 
     void on_pushButton_Image_clicked();
     void on_pushButton_Active1_clicked();
@@ -129,5 +133,6 @@ private:
     QPoint pointTL, pointBR;
     int X_pick, Y_pick;
     QPoint Valmaxmin;
+    QSerialPort*serialport;
 };
 #endif // MAINWINDOW_H
