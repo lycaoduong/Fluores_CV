@@ -32,7 +32,7 @@ public:
     void Colormap_Plot(QImage qImage, QCustomPlot *Object);
     void Clear_Plot(QCustomPlot *Object);
     void startWindow_Config(void);
-    void serialPort_Config(void);
+    void serialPort_Config(QString port_name);
     QByteArray calculateFrame(QString frame);
     void find_motion_Port(void);
     void apply_Color_Map(int color_Index, cv::Mat input);
@@ -92,6 +92,10 @@ private slots:
 
     void on_pushButton_HorizonLine_clicked();
 
+    void on_pushButton_LightRoom_clicked();
+
+    void on_pushButton_Reset_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -115,6 +119,7 @@ private:
     QString QfileNameF;
     QString QpathImage;
     int QpathImage_index = 0;
+    int COM_index = 0;
 
     QCPItemText *textItem_Coor;
     QCPItemStraightLine *strLine_Verical;

@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     startWindow_Config();
-    serialPort_Config();
+    find_motion_Port();
     connect(ui->radioButton_Ch1, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
     connect(ui->radioButton_Ch2, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
     connect(ui->radioButton_Ch3, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
@@ -24,36 +24,57 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::serialPort_Config(void)
+void MainWindow::serialPort_Config(QString port_name)
 {
     serialport=new QSerialPort();
 //    serialport->open(QIODevice::ReadWrite);
-    serialport->setPortName("COM7");
+    serialport->setPortName(port_name);
     serialport->setBaudRate(QSerialPort::Baud57600);
     serialport->setDataBits(QSerialPort::Data8);
     serialport->setParity(QSerialPort::NoParity);
     serialport->setStopBits(QSerialPort::OneStop);
     serialport->setFlowControl(QSerialPort::NoFlowControl);
     if (serialport->open(QIODevice::ReadWrite)){
-        qDebug()<<"Opened successfully";
-        ui->checkBox_Com->setStyleSheet("color: rgb(0, 255, 0);");
-        ui->checkBox_Com->setText("Connected");
-        ui->checkBox_Com->setChecked(true);
+        //qDebug()<<"Opened successfully";
       }
-//    if (!serialport->waitForReadyRead(1000))
-//    {
-//        qDebug()<<"failed";
-//        ui->checkBox_Com->setText("Connected Fail");
-//    }
-//    find_motion_Port();
+    QString frame = "VNN";
+    QByteArray data = calculateFrame(frame);
+    serialport->write(data);
+    if (!serialport->waitForReadyRead(1000))
+    {
+        //qDebug()<<"failed";
+        ui->checkBox_Com->setText("FAILED");
+    }
+    if (serialport->waitForReadyRead(1000))
+    {
+        QByteArray responseData = serialport->readAll();
+        while (serialport->waitForReadyRead(100))
+            responseData += serialport->readAll();
+//        qDebug() << responseData;
+        if(responseData!="")
+        {
+            ui->checkBox_Com->setStyleSheet("color: rgb(0, 255, 0);");
+            ui->checkBox_Com->setText("CONNECTED");
+            ui->checkBox_Com->setChecked(true);
+            ui->comboBox_COM->setCurrentIndex(COM_index);
+        }
+        else
+        {
+            ui->checkBox_Com->setText("FAILED");
+            serialport->close();
+        }
+    }
 }
 
 void MainWindow::find_motion_Port(void)
 {
+    COM_index = 0;
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
-//        qDebug() << serialPortInfo.portName();
-        ui->comboBox_COM->addItem(serialPortInfo.portName());
+        QString port_name = serialPortInfo.portName();
+        ui->comboBox_COM->addItem(port_name);
+        COM_index+=1;
+        serialPort_Config(port_name);
     }
 }
 
@@ -70,7 +91,7 @@ void MainWindow::mpOnRadiBoxClickked()
     else if(ui->radioButton_Ch2->isChecked())
     {
         if(serialport->isOpen()){
-        qDebug() << 2;
+        //qDebug() << 2;
         QString frame = "LP2";
         QByteArray data = calculateFrame(frame);
         serialport->write(data);
@@ -917,3 +938,21 @@ void MainWindow::mouse_Move(QMouseEvent *event)
 }
 
 
+
+void MainWindow::on_pushButton_LightRoom_clicked()
+{
+    if(serialport->isOpen()){
+    //qDebug() << 4;
+    QString frame = "WNN";
+    QByteArray data = calculateFrame(frame);
+    serialport->write(data);}
+}
+
+void MainWindow::on_pushButton_Reset_clicked()
+{
+    if(serialport->isOpen()){
+    //qDebug() << 4;
+    QString frame = "RNN";
+    QByteArray data = calculateFrame(frame);
+    serialport->write(data);}
+}
