@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->radioButton_Ch3, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
     connect(ui->radioButton_Ch4, SIGNAL(clicked()), SLOT(mpOnRadiBoxClickked()));
     connect(ui->horizontalSlider_Intensity, SIGNAL(valueChanged(int)), SLOT(intensityChange(int)));
+//    get_Flircamera();
+    acquiring_Camera();
 }
 
 MainWindow::~MainWindow()
@@ -24,6 +26,219 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::get_Flircamera(void)
+{
+    SystemPtr system = System::GetInstance();
+    CameraList camList = system->GetCameras();
+    const unsigned int numCameras = camList.GetSize();
+    qDebug() << "Number of cameras detected: " << numCameras << endl << endl;
+    if (numCameras == 0)
+    {
+        // Clear camera list before releasing system
+        camList.Clear();
+        system->ReleaseInstance();
+        qDebug() << "Not enough cameras!" << endl;
+        qDebug() << "Done! Press Enter to exit..." << endl;
+    }
+}
+void MainWindow::acquiring_Camera(void)
+{
+    SystemPtr system = System::GetInstance();
+    CameraList camList = system->GetCameras();
+    const unsigned int numCameras = camList.GetSize();
+    qDebug() << "Number of cameras detected: " << numCameras << endl << endl;
+    if (numCameras == 0)
+    {
+        // Clear camera list before releasing system
+        camList.Clear();
+        system->ReleaseInstance();
+        qDebug() << "Not enough cameras!" << endl;
+        qDebug() << "Done! Press Enter to exit..." << endl;
+    }
+
+    CameraPtr pCam = nullptr;
+    pCam = camList.GetByIndex(0);
+    INodeMap& nodeMapTLDevice = pCam->GetTLDeviceNodeMap();
+
+    FeatureList_t features;
+    const CCategoryPtr category = nodeMapTLDevice.GetNode("DeviceInformation");
+    if (IsAvailable(category) && IsReadable(category))
+    {
+        category->GetFeatures(features);
+
+        for (auto it = features.begin(); it != features.end(); ++it)
+        {
+            const CNodePtr pfeatureNode = *it;
+            cout << pfeatureNode->GetName() << " : ";
+            CValuePtr pValue = static_cast<CValuePtr>(pfeatureNode);
+            cout << (IsReadable(pValue) ? pValue->ToString() : "Node not readable");
+            cout << endl;
+        }
+    }
+    else
+    {
+        cout << "Device control information not available." << endl;
+    }
+
+    PrintDeviceInfo(nodeMapTLDevice);
+
+    pCam->Init();
+
+    INodeMap& nodeMap = pCam->GetNodeMap();
+
+//    CFloatPtr ptrGain = nodeMap.GetNode("Gain");
+//    const double gainMax = ptrGain->GetMax();
+//    double gainToSet = 1;
+//    if (gainToSet > gainMax)
+//    {
+//        gainToSet = gainMax;
+//    }
+
+//    ptrGain->SetValue(gainToSet);
+
+
+
+    AcquireImages(pCam, nodeMap, nodeMapTLDevice);
+}
+
+void MainWindow::PrintDeviceInfo(INodeMap& nodeMap)
+{
+    FeatureList_t features;
+    const CCategoryPtr category = nodeMap.GetNode("DeviceInformation");
+    if (IsAvailable(category) && IsReadable(category))
+    {
+        category->GetFeatures(features);
+
+        for (auto it = features.begin(); it != features.end(); ++it)
+        {
+            const CNodePtr pfeatureNode = *it;
+            cout << pfeatureNode->GetName() << " : ";
+            CValuePtr pValue = static_cast<CValuePtr>(pfeatureNode);
+            cout << (IsReadable(pValue) ? pValue->ToString() : "Node not readable");
+            cout << endl;
+        }
+    }
+}
+
+void MainWindow::AcquireImages(CameraPtr pCam, INodeMap& nodeMap, INodeMap& nodeMapTLDevice)
+{
+    CEnumerationPtr ptrAcquisitionMode = nodeMap.GetNode("AcquisitionMode");
+
+    CEnumEntryPtr ptrAcquisitionModeContinuous = ptrAcquisitionMode->GetEntryByName("Continuous");
+    const int64_t acquisitionModeContinuous = ptrAcquisitionModeContinuous->GetValue();
+    ptrAcquisitionMode->SetIntValue(acquisitionModeContinuous);
+
+    pCam->BeginAcquisition();
+    gcstring deviceSerialNumber("");
+    CStringPtr ptrStringSerial = nodeMapTLDevice.GetNode("DeviceSerialNumber");
+    if (IsAvailable(ptrStringSerial) && IsReadable(ptrStringSerial))
+    {
+        deviceSerialNumber = ptrStringSerial->GetValue();
+
+        cout << "Device serial number retrieved as " << deviceSerialNumber << "..." << endl;
+    }
+
+    const unsigned int k_numImages = 10;
+
+    for (unsigned int imageCnt = 0; imageCnt < k_numImages; imageCnt++)
+    {
+            //
+            // Retrieve next received image
+            //
+            // *** NOTES ***
+            // Capturing an image houses images on the camera buffer. Trying
+            // to capture an image that does not exist will hang the camera.
+            //
+            // *** LATER ***
+            // Once an image from the buffer is saved and/or no longer
+            // needed, the image must be released in order to keep the
+            // buffer from filling up.
+            //
+            ImagePtr pResultImage = pCam->GetNextImage(1000);
+
+            //
+            // Ensure image completion
+            //
+            // *** NOTES ***
+            // Images can easily be checked for completion. This should be
+            // done whenever a complete image is expected or required.
+            // Further, check image status for a little more insight into
+            // why an image is incomplete.
+            //
+            if (pResultImage->IsIncomplete())
+            {
+                // Retrieve and print the image status description
+                cout << "Image incomplete: " << Image::GetImageStatusDescription(pResultImage->GetImageStatus())
+                     << "..." << endl
+                     << endl;
+            }
+            else
+            {
+                //
+                // Print image information; height and width recorded in pixels
+                //
+                // *** NOTES ***
+                // Images have quite a bit of available metadata including
+                // things such as CRC, image status, and offset values, to
+                // name a few.
+                //
+                const size_t width = pResultImage->GetWidth();
+
+                const size_t height = pResultImage->GetHeight();
+
+                cout << "Grabbed image " << imageCnt << ", width = " << width << ", height = " << height << endl;
+
+                //
+                // Convert image to mono 8
+                //
+                // *** NOTES ***
+                // Images can be converted between pixel formats by using
+                // the appropriate enumeration value. Unlike the original
+                // image, the converted one does not need to be released as
+                // it does not affect the camera buffer.
+                //
+                // When converting images, color processing algorithm is an
+                // optional parameter.
+                //
+                ImagePtr convertedImage = pResultImage->Convert(PixelFormat_Mono8, HQ_LINEAR);
+
+                // Create a unique filename
+                ostringstream filename;
+
+                filename << "Acquisition-";
+                if (!deviceSerialNumber.empty())
+                {
+                    filename << deviceSerialNumber.c_str() << "-";
+                }
+                filename << imageCnt << ".jpg";
+
+                //
+                // Save image
+                //
+                // *** NOTES ***
+                // The standard practice of the examples is to use device
+                // serial numbers to keep images of one device from
+                // overwriting those of another.
+                //
+                convertedImage->Save(filename.str().c_str());
+
+                cout << "Image saved at " << filename.str() << endl;
+            }
+
+            //
+            // Release image
+            //
+            // *** NOTES ***
+            // Images retrieved directly from the camera (i.e. non-converted
+            // images) need to be released in order to keep from filling the
+            // buffer.
+            //
+            pResultImage->Release();
+
+            cout << endl;
+    }
+}
 void MainWindow::serialPort_Config(QString port_name)
 {
     serialport=new QSerialPort();
@@ -232,6 +447,7 @@ void MainWindow::Colormap_Plot(QImage qImage, QCustomPlot *Object)
             ui->widget_Display->removeItem(MyImage);
         }
 //        _color_map = new QCPColorMap(Object->xAxis, Object->yAxis);
+        _color_map->destroyed();
         _color_map->data()->setSize(qImage.size().width(), qImage.size().height());
         _color_map->data()->setRange(QCPRange(0, qImage.size().width()), QCPRange(0, qImage.size().height()));
 
@@ -656,6 +872,7 @@ void MainWindow::on_pushButton_RGB_clicked()
 {
     if (!qtImage.isNull())
     {
+        ui->widget_Display->clearItems();
         Colormap_Plot(qt_display_current, ui->widget_Display);
         mode_Display = change_mode(0);
         choose_Color_Map(mode_Display);
@@ -666,9 +883,11 @@ void MainWindow::on_pushButton_Red_clicked()
 {
     if (!qtImage.isNull())
     {
-       Colormap_Plot(qt_display_current, ui->widget_Display);
-       mode_Display = change_mode(1);
-       choose_Color_Map(mode_Display);
+       ui->widget_Display->plotLayout()->remove(_color_scale);
+       ui->widget_Display->replot();
+//       Colormap_Plot(qt_display_current, ui->widget_Display);
+//       mode_Display = change_mode(1);
+//       choose_Color_Map(mode_Display);
     }
 }
 

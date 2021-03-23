@@ -12,6 +12,13 @@
 #include <QtSerialPort/QSerialPort>
 #include <QSerialPortInfo>
 
+#include "Spinnaker.h"
+#include "spinnaker/SpinGenApi/SpinnakerGenApi.h"
+
+using namespace Spinnaker;
+using namespace Spinnaker::GenApi;
+using namespace Spinnaker::GenICam;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -45,6 +52,10 @@ public:
     cv::Mat gray_Scale(cv::Mat input);
     QVector<double> return_Hvector(cv::Mat img, int BGR_channel);
     int change_mode(int _mode);
+    void get_Flircamera(void);
+    void acquiring_Camera(void);
+    void AcquireImages(CameraPtr pCam, INodeMap& nodeMap, INodeMap& nodeMapTLDevice);
+    void PrintDeviceInfo(INodeMap& nodeMap);
 
 signals:
     void MenuPopup();

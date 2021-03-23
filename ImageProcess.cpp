@@ -46,6 +46,8 @@ cv::Mat ImageProcess::QImage2Cv(QImage qtimg)
 
 Mat ImageProcess::colorMap2Mat(QCPColorMap clm, QCustomPlot *Object)
 {
+    cv::Mat img;
+    return img;
 }
 
 QCPColorGradient ImageProcess::customGradient(int mode)
