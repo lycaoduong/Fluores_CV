@@ -5,6 +5,10 @@ This project depends on the following libraries:
 - Spinnaker SDK for FLIR camera
 - Opencv 4.5 C++
 - QCustomPlot 
+# **Result**
+System Design | Graphical User Interface | In Vitro Processing | In Vivo Processing
+--- | --- | --- | --- 
+![plot](system_design.jpg) | ![plot](gui.png) | ![plot](eg1.png) | ![plot](eg2.png)
 # **Citation**
 ```@article{doan2021fluorescence,
   title={Fluorescence/photoacoustic imaging-guided nanomaterials for highly efficient cancer theragnostic agent},
